@@ -1,0 +1,54 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Output of go build
+/bin/
+/build/
+/dist/
+
+# Go workspace file
+go.work
+
+# Vendor directory (if using go mod vendor)
+vendor/
+
+# Go coverage tool files
+*.coverprofile
+*.cov
+
+# IDE / Editor settings
+.vscode/
+.idea/
+*.swp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Environment & secret files
+.env
+.env.*
+*.key
+*.pem
+keys/
+private.key
+public.key
+
+# Cache
+__pycache__/
+*.py[cod]
+*.cache
+
+# Module files backup
+go.sum.bak
+go.mod.bak
