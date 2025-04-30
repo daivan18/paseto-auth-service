@@ -9,7 +9,6 @@ RUN go mod download
 
 # 複製程式與金鑰目錄
 COPY . .
-COPY keys ./keys
 
 # 編譯 Go 程式
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o main .
