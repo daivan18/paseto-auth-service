@@ -1,0 +1,22 @@
+# 忽略 Git 資料夾
+.git
+.gitignore
+
+# 不用的說明文件
+README.md
+
+# log 或 temp 檔
+*.log
+*.tmp
+
+# 編譯後的執行檔（Go build）
+main
+*.out
+*.exe
+
+# 作業系統特有
+.DS_Store
+Thumbs.db
+
+# 如果你有 vendor 目錄但使用 Go modules
+/vendor/

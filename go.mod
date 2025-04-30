@@ -1,7 +1,7 @@
 //module paseto-auth-service
 module github.com/daivan18/paseto-auth-service
 
-go 1.24.2
+go 1.22
 
 require (
 	github.com/gin-gonic/gin v1.10.0
