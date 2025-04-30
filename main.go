@@ -9,16 +9,22 @@ import (
 	"github.com/daivan18/paseto-auth-service/handler"
 	"github.com/daivan18/paseto-auth-service/utils"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 // 設定金鑰路徑
 const privateKeyPath = "keys/secret.key"
 
 func main() {
+	// 若不是在 Render 環境中，就載入本地 .env
+	if os.Getenv("RENDER") != "true" {
+		_ = godotenv.Load()
+	}
+
 	// 初始化資料庫
 	utils.InitDatabase()
 
-	// 若環境變數未設，才檢查並產生檔案金鑰
+	// 若未設 PASETO_SECRET，檢查是否要產生本地金鑰
 	if os.Getenv("PASETO_SECRET") == "" {
 		if _, err := os.Stat(privateKeyPath); os.IsNotExist(err) {
 			fmt.Println("🔐 金鑰不存在，正在自動產生...")
@@ -47,8 +53,8 @@ func main() {
 	r := gin.Default()
 
 	// 提供給其他專案的 API
-	r.POST("/api/login", handler.Login)   // 提供 Token 產生
-	r.POST("/api/verify", handler.Verify) // 提供 Token 驗證
+	r.POST("/api/login", handler.Login)
+	r.POST("/api/verify", handler.Verify)
 
 	// 啟動服務
 	r.Run(":8080")

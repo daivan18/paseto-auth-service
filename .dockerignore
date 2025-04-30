@@ -1,22 +1,17 @@
-# 忽略 Git 資料夾
+# 編譯出來的 binary
+/server
+
+# Go modules cache
+/pkg
+/bin
+
+# 環境變數檔案
+.env
+
+# Git
 .git
 .gitignore
 
-# 不用的說明文件
-README.md
-
-# log 或 temp 檔
-*.log
-*.tmp
-
-# 編譯後的執行檔（Go build）
-main
-*.out
-*.exe
-
-# 作業系統特有
-.DS_Store
-Thumbs.db
-
-# 如果你有 vendor 目錄但使用 Go modules
-/vendor/
+# IDE 設定檔
+.vscode
+.idea
