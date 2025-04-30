@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/daivan18/paseto-auth-service/handler"
 	"github.com/daivan18/paseto-auth-service/utils"
@@ -21,7 +22,14 @@ func main() {
 	if os.Getenv("PASETO_SECRET") == "" {
 		if _, err := os.Stat(privateKeyPath); os.IsNotExist(err) {
 			fmt.Println("🔐 金鑰不存在，正在自動產生...")
-			//todo 這邊判斷若金鑰已存在，則不再產生
+
+			// 建立金鑰資料夾（若不存在）
+			keyDir := filepath.Dir(privateKeyPath)
+			if err := os.MkdirAll(keyDir, 0700); err != nil {
+				log.Fatal("❌ 無法建立金鑰資料夾:", err)
+			}
+
+			// 產生金鑰
 			if err := GenerateAndSaveKey(privateKeyPath); err != nil {
 				log.Fatal("❌ 無法生成金鑰:", err)
 			}
