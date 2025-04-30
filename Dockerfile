@@ -1,7 +1,7 @@
 # ---------- Build stage ----------
 
 # 使用 Go 官方映像
-FROM golang:1.21.0-slim
+FROM golang:1.21
 
 # 安裝必要工具（包含 git 和 ca-certificates）
 RUN apk add --no-cache git ca-certificates
