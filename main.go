@@ -56,11 +56,6 @@ func main() {
 	r.POST("/api/login", handler.Login)
 	r.POST("/api/verify", handler.Verify)
 
-	// 測試用
-	r.GET("/ping", func(c *gin.Context) {
-		c.String(200, "pong")
-	})
-
 	// 啟動服務
 	port := os.Getenv("PORT") // Render 預設會使用 port 10000
 	if port == "" {
