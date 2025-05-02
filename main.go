@@ -57,5 +57,9 @@ func main() {
 	r.POST("/api/verify", handler.Verify)
 
 	// 啟動服務
-	r.Run(":8080")
+	port := os.Getenv("PORT") // Render 預設會使用 port 10000
+	if port == "" {
+		port = "8080" // 預設給本地使用
+	}
+	r.Run(":" + port)
 }
