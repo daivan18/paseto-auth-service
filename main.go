@@ -62,5 +62,5 @@ func main() {
 		port = "8080" // 預設給本地使用
 	}
 	log.Println("🚀 Paseto Auth Service is running on port", port)
-	r.Run(":" + port)
+	r.Run(":" + os.Getenv("PORT"))
 }
