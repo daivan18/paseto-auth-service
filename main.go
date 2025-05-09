@@ -12,7 +12,6 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// 設定金鑰路徑
 const privateKeyPath = "keys/secret.key"
 
 func main() {
@@ -52,9 +51,14 @@ func main() {
 	// 初始化 Gin 路由
 	r := gin.Default()
 
-	// 提供給其他專案的 API
+	// API 路由
 	r.POST("/api/login", handler.Login)
 	r.POST("/api/verify", handler.Verify)
+
+	// ➕ 加入 health check endpoint
+	r.GET("/healthz", func(c *gin.Context) {
+		c.JSON(200, gin.H{"status": "ok"})
+	})
 
 	// 啟動服務
 	port := os.Getenv("PORT") // Render 預設會使用 port 10000
@@ -62,5 +66,5 @@ func main() {
 		port = "8080" // 預設給本地使用
 	}
 	log.Println("🚀 Paseto Auth Service is running on port", port)
-	r.Run(":" + os.Getenv("PORT"))
+	r.Run(":" + port) // ⚠️ 修正：使用 `port` 而非重讀 os.Getenv("PORT")
 }
