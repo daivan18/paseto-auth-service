@@ -65,27 +65,28 @@ func Login(c *gin.Context) {
 	}
 
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Invalid input",
+		})
 		return
 	}
 
-	// 定義用於接收查詢結果的變數
 	var hashedPwd string
-
-	// 使用 GORM 查詢資料庫
 	result := utils.GetDB().Table("users").Select("password_hash").Where("username = ?", req.Username).Scan(&hashedPwd)
 	if result.Error != nil || result.RowsAffected == 0 {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Invalid credentials (user not found)",
+		})
 		return
 	}
 
-	// 驗證密碼
 	if err := bcrypt.CompareHashAndPassword([]byte(hashedPwd), []byte(req.Password)); err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "密碼錯誤!"})
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "密碼錯誤",
+		})
 		return
 	}
 
-	// 產生 PASETO Token
 	now := time.Now()
 	exp := now.Add(15 * time.Minute)
 
@@ -93,16 +94,20 @@ func Login(c *gin.Context) {
 		Expiration: exp,
 		IssuedAt:   now,
 	}
-
 	jsonToken.Set("username", req.Username)
 
 	token, err := paseto.NewV2().Encrypt(pasetoKey, jsonToken, nil)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Token generation failed"})
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Token generation failed",
+		})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"token": token})
+	c.JSON(http.StatusOK, gin.H{
+		"token":   token,
+		"message": "登入成功",
+	})
 }
 
 // Verify 給 Python 專案驗證 token 用
